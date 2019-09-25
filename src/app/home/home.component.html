@@ -1,0 +1,30 @@
+<div class="chat">
+  <div class="chat__sidebar">
+    <h1>{{room}} </h1>
+    <br>
+Utilisateur connectés:
+    <mat-list *ngFor="let user of usersInRoom">
+      <mat-list-item ><---{{user.username}}---> </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="chat__main">
+    <div class=chat__messages id="messages" ngx-auto-scroll lock-y-offset="10" observe-attributes>
+      <div *ngFor="let message of messageArray" id="child">
+        <mat-card>
+          <mat-card-subtitle>
+            {{message.username}}--{{message.time}}
+          </mat-card-subtitle>
+          {{message.message}}
+        </mat-card>
+      </div>
+    </div>
+    <div class="compose">
+      <form [formGroup]="form" (ngSubmit)="sendMessage()">
+        <input type="text" id="input" class="form-control" formControlName="input" autocomplete="off"> <button
+          type="submit" class="btn btn-primary" id=envoyer>Envoyer</button>
+      </form>
+      <button (tap)='sendLocation()'>Send location</button>
+    </div>
+
+  </div>
+</div>
