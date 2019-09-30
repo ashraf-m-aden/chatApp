@@ -1,0 +1,47 @@
+<div class="container messages-container">
+  <div class="navbar navbar-dark bg-light">
+    Nom de la personne avec qui tu chatte
+  </div>
+  <div class="row messages" *ngIf="isRoom">
+
+    <div class="col" id="messages" ngx-auto-scroll lock-y-offset="10" observe-attributes>
+      <div *ngFor="let message of messageArray" id="child">
+        <mat-card>
+          <mat-card-subtitle>
+            {{message.username}}--{{message.time}}
+          </mat-card-subtitle>
+          {{message.message}}
+        </mat-card>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="row compose" *ngIf="isRoom">
+    <div class="col-12 col-md-7">
+      <form [formGroup]="form" (ngSubmit)="sendMessage()">
+        <input type="text" id="input" class="form-control" formControlName="input" autocomplete="off"> <button
+          type="submit" class="btn btn-primary" id=envoyer>Envoyer</button>
+      </form>
+    </div>
+    <div class="col-12 col-md-5">
+      emoji
+      emoji
+      emoji
+    </div>
+  </div>
+  <div class="row recherche text-center" *ngIf="!isRoom">
+    <div class="col-6 text-center">
+      Trouve un ami :D <br>
+      <form [formGroup]="friend" (ngSubmit)="searchFriend()">
+        <input type="text" id="friendUsername" class="form-control" formControlName="friend" autocomplete="off"> <button
+          type="submit" class="btn btn-secondary" id=envoyer>Rechercher</button>
+      </form> <br>
+    </div>
+  </div>
+  <div class="row recherche text-center">
+    <div class="col-3 text-center">
+      Test
+    </div>
+  </div>
+</div>

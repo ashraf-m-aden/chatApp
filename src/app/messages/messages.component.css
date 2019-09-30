@@ -1,0 +1,25 @@
+.row{
+}
+.messages-container {
+  min-width: 100%;
+  max-height: 100vh;
+}
+.messages{
+background-attachment: fixed;
+min-height: 100%
+}
+.recherche{
+  justify-content: center
+}
+.compose{
+  border: solid black;
+  margin: 0;
+  bottom: 0;
+}
+form{
+  display: flex
+}
+#input{
+  height: auto;
+
+}

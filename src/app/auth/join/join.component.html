@@ -1,0 +1,23 @@
+<div class="container ">
+  <div class="row">
+    <div class="col">
+
+      <div class="centered-form">
+        <div class="centered-form__box">
+          <div class="alert alert-danger" *ngIf=error>
+            {{error}}
+          </div>
+          <h1>Se connecter</h1>
+          <form [formGroup]="join" (ngSubmit)="logIn()">
+            <label>addresse email</label>
+            <input type="text" id="display" class="form-control" formControlName="email" required>
+            <label>Mot de passe</label>
+            <input type="text" id="display" class="form-control" formControlName="mdp" required>
+            <button type="submit" class="btn btn-primary" id=envoyer>Join</button>
+          </form>
+          <a class="btn btn-primary" [routerLink]="[ '/signUp' ]">S'inscrire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

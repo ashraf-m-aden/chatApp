@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ConnService {
-
-  private socket = io('http://localhost:3000');
+  url = "http://localhost:3000/"
+  private socket = io(this.url);
   constructor() { }
 
   joinRoom(username, room) {

@@ -1,0 +1,108 @@
+html {
+  font-size: 16px;
+}
+
+input {
+  font-size: 14px;
+}
+
+body {
+  line-height: 1.4;
+  color: #333333;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #777;
+}
+
+input {
+  border: 1px solid #eeeeee;
+  padding: 12px;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px;
+  background: #7C5CBF;
+  border: none;
+  color: white;
+  font-size: 12px;
+  transition: background .3s ease;
+}
+
+button:hover {
+  background: #6b47b8;
+}
+
+button:disabled {
+  cursor: default;
+  background: #7c5cbf94;
+}
+
+/* Join Page Styles */
+
+.container {
+  background: #333744;
+  min-width: 100vw;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered-form__box {
+  box-shadow: 0px 0px 17px 1px #1D1F26;
+  background: #F7F7FA;
+  padding: 24px;
+}
+
+.centered-form button {
+  width: 100%;
+}
+
+.centered-form input {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+html,
+
+body {
+
+  height: 100%;
+
+}
+
+
+
+#cover {
+
+  background:#333744 center center no-repeat;
+
+  background-size: cover;
+
+  height: 100%;
+
+  text-align: center;
+
+  display: flex;
+
+  align-items: center;
+
+}
+
+
+
+#cover-caption {
+
+  width: 100%;
+
+}

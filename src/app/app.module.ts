@@ -1,20 +1,20 @@
-import { JoinComponent } from './join/join.component';
+import { AuthService } from './services/auth.service';
+import { ConnService } from './services/conn.service';
+import { JoinComponent } from './auth/join/join.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {NgxAutoScrollModule} from "ngx-auto-scroll";
+import { NgxAutoScrollModule } from "ngx-auto-scroll";
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, COMPONENTS } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    JoinComponent
+    COMPONENTS
   ],
   imports: [
     BrowserModule,
@@ -25,7 +25,10 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     NgxAutoScrollModule
   ],
-  providers: [],
+  providers: [
+    ConnService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

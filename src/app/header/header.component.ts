@@ -1,15 +1,18 @@
-import { ConnService } from './../services/conn.service';
+import { AuthService } from './../services/auth.service';
+import { ConnService } from '../services/conn.service';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxAutoScroll } from "ngx-auto-scroll";
+import { ThrowStmt } from '@angular/compiler';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HeaderComponent implements OnInit {
   @ViewChild(NgxAutoScroll, { static: false }) ngxAutoScroll: NgxAutoScroll;
   message: String;
   messageArray: Array<{ username: String, time: String, message: String }> = [];
@@ -18,14 +21,24 @@ export class HomeComponent implements OnInit {
   form: FormGroup;
   userName;
   room;
+  isAuth = new Observable();
+  isConnected = false;
   container = document.getElementById("messages");
   constructor(
-    private route: ActivatedRoute,
     private webSocketService: ConnService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private aR: ActivatedRoute
+    private auth: AuthService
   ) {
+    this.isAuth.subscribe(
+      (data) => {
+        console.log(data);
+
+      }
+    );
+    if (localStorage.getItem('id') && localStorage.getItem('token')) {
+      this.isConnected = true;
+    }
     this.webSocketService.newMessageReceived().subscribe((data) => {
       this.messageArray.push({
         username: data.username,
@@ -49,9 +62,6 @@ export class HomeComponent implements OnInit {
     this.webSocketService.receivedTyping().subscribe(bool => {
       this.isTyping = bool.isTyping;
     });
-
-    this.userName = this.aR.snapshot.params['name'];
-    this.room = this.aR.snapshot.params['room'];
 
   }
   initform() {
@@ -114,9 +124,24 @@ export class HomeComponent implements OnInit {
 
 
   }
+  goToChat(x) {
+    this.router.navigate(['/messages/1']);
+
+  }
 
   typing() {
     //   this.webSocketService.typing({room: this.chatroom, user: this.userService.getLoggedInUser().username});
   }
+  logOut() {
+    this.auth.logOut().subscribe(
+      () => {
+        localStorage.clear();
+        this.router.navigate(['/join']);
 
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }
