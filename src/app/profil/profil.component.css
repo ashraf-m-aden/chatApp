@@ -1,0 +1,10 @@
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.fill {
+  margin: auto;
+  margin-top: 1%;
+  min-height: 100vh;
+  height: 100%;
+}

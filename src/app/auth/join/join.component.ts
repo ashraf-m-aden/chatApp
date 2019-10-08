@@ -45,16 +45,6 @@ export class JoinComponent implements OnInit {
   }
 
   logIn() {
-    this.auth.logIn(this.join.get('email').value, this.join.get('mdp').value).subscribe(
-      (data: any) => {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("id", data.user._id);
-        this.isAuth.next(true);
-        this.router.navigate(['/messages/0']);
-
-      }, (error) => {
-        this.error = error.error;
-      }
-    );
+    this.auth.logIn(this.join.get('email').value, this.join.get('mdp').value);
   }
 }

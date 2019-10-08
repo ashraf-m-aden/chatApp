@@ -11,6 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatMenuModule, MatButtonModule,
     MatToolbarModule, MatListModule,
     MatDividerModule,
-    MatCardModule, MatTableModule, MatSelectModule
+    MatCardModule, MatTableModule, MatSelectModule, MatBadgeModule
   ]
 })
 export class AngularMaterialModule { }

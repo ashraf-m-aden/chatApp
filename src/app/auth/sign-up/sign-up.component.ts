@@ -1,4 +1,3 @@
-import { Observable, Subject } from 'rxjs';
 import { AuthService } from './../../services/auth.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
   signUp: FormGroup;
-  isAuth = new Subject();
+
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
@@ -39,18 +38,7 @@ export class SignUpComponent implements OnInit {
     const mdpC = this.signUp.get('mdpC').value;
     //
     if (mdp === mdpC) {
-      this.auth.signUp(email, name, Lname, mdp).subscribe(
-        (user: any) => {
-          localStorage.setItem('id', user._id);
-          localStorage.setItem('token', user.token);
-          this.isAuth.next(true);
-
-        },
-        (error) => {
-          console.log(error);
-
-        }
-      );
+      this.auth.signUp(email, name, Lname, mdp);
     }
   }
 

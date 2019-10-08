@@ -1,19 +1,43 @@
 <div class="navbar navbar-expand">
-  <a class="navbar-brand" [routerLink]="['/messages/0']">
-    <img src="../../assets/imageslog.png" width="40" height="30" alt="Site logo">
-    BlACK FLAG
-  </a>
-  <button *ngIf="isConnected" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" color="secondary">
-    <!-- Mes contacts<mat-icon aria-label="Side nav toggle icon">people</mat-icon> -->
-    Mes contacts
-  </button>
-  <button *ngIf="isConnected" type="button" style="float: right" aria-label="LogOut" mat-icon-button (click)="logOut()" color="secondary">
-    Se deconnecter
-  </button>
+  <div class="col-6">
+    <a class="navbar-brand" (tap)="Menus()">
+      <img src="../../assets/imageslog.png" width="40" height="30" alt="Site logo">
+      BlACK FLAG
+    </a>
+  </div>
+  <div class="col-6" style="display: flex; justify-content: space-between; border: solid black">
+    <button *ngIf="isConnected" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()"
+      color="secondary">
+      <!-- Mes contacts<mat-icon aria-label="Side nav toggle icon">people</mat-icon> -->
+      Mes contacts
+    </button>
+
+    <button class="btn btn-light" *ngIf="isConnected && notifCount>0" matBadge={{notifCount}} [matMenuTriggerFor]="menu"
+      color="primary" matBadgePosition="above after" matBadgePosition="before" matBadgeOverlap="true"
+      matBadgeColor="accent">
+      <img src="../../assets/bell.png" width="40" height="30" alt="Site logo">
+    </button>
+
+    <button class="btn btn-light" *ngIf="isConnected && notifCount==0" [matMenuTriggerFor]="menu" color="primary"
+      matBadgePosition="above after" matBadgePosition="before" matBadgeOverlap="true" matBadgeColor="accent">
+      <img src="../../assets/bell.png" width="40" height="30" alt="Site logo">
+
+    </button>
+    <button *ngIf="isConnected" type="button" style="float: right" aria-label="LogOut" mat-icon-button
+      (click)="logOut()" color="secondary">
+      Se deconnecter
+    </button>
+    <mat-menu #menu="matMenu" >
+      <div *ngFor="let user of friendRequest">
+        <div>{{user?.name}} {{user?.Lname}} <button class="btn-success" (tap)="accept(user._id)" >Accepter</button><button
+          class="btn-danger" (tap)="reject(user._id)">Rejeter</button> </div>
+      </div>
+    </mat-menu>
+  </div>
 </div>
 
-<mat-sidenav-container class="sidenavContainer" >
-  <mat-sidenav *ngIf="isConnected" #sidenav mode="over" open="true" class="example-sidenav" fixedInViewport="true" fixedTopGap="64">
+<mat-sidenav-container class="sidenavContainer">
+  <mat-sidenav #sidenav mode="over" open="true" class="example-sidenav" fixedInViewport="true" fixedTopGap="64">
     <mat-toolbar color="success">
       <button mat-icon-button [routerLink]="['/dashboard']">
         <mat-icon>group_work</mat-icon>

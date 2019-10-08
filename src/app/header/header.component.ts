@@ -1,11 +1,10 @@
+import { FriendsService } from './../services/friends.service';
 import { AuthService } from './../services/auth.service';
 import { ConnService } from '../services/conn.service';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxAutoScroll } from "ngx-auto-scroll";
-import { ThrowStmt } from '@angular/compiler';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -20,25 +19,32 @@ export class HeaderComponent implements OnInit {
   private isTyping = false;
   form: FormGroup;
   userName;
+  notifCount = 0;
   room;
-  isAuth = new Observable();
+  myUser;
+  friendRequest = [];
   isConnected = false;
   container = document.getElementById("messages");
   constructor(
     private webSocketService: ConnService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private auth: AuthService
+    private auth: AuthService,
+    private friend: FriendsService
   ) {
-    this.isAuth.subscribe(
+    this.auth.Auth.subscribe(
       (data) => {
-        console.log(data);
-
+        this.isConnected = data;
       }
     );
     if (localStorage.getItem('id') && localStorage.getItem('token')) {
       this.isConnected = true;
+      this.auth.getUser().subscribe((user) => {
+        this.myUser = user;
+        this.countNotif();
+      });
     }
+
     this.webSocketService.newMessageReceived().subscribe((data) => {
       this.messageArray.push({
         username: data.username,
@@ -72,7 +78,31 @@ export class HeaderComponent implements OnInit {
   public forceScrollDown(): void {
     this.ngxAutoScroll.forceScrollDown();
   }
+  countNotif() {
+    this.friend.getFriendRequest().subscribe((users: any) => {
+      users.forEach((user) => {
+        if (user.status === 'pending') {
+          this.friend.getFriendProfile(user._id).subscribe((_user) => {
+            this.friendRequest.push(_user);
+            this.notifCount = this.friendRequest.length;
 
+          });
+        }
+      });
+    });
+  }
+
+  accept(id) {
+    this.friend.answerRequest('yes', id).subscribe(() => {
+      this.countNotif();
+    });
+  }
+  reject(id) {
+    this.friend.answerRequest('no', id).subscribe(() => {
+      this.countNotif();
+
+    });
+  }
   ngOnInit() {
     this.initform();
   }
@@ -132,10 +162,19 @@ export class HeaderComponent implements OnInit {
   typing() {
     //   this.webSocketService.typing({room: this.chatroom, user: this.userService.getLoggedInUser().username});
   }
+  Menus() {
+    if (localStorage.getItem('id')) {
+      this.router.navigate(['/messages/0']);
+    } else {
+      this.router.navigate(['/join']);
+
+    }
+  }
   logOut() {
     this.auth.logOut().subscribe(
       () => {
         localStorage.clear();
+        this.isConnected = false;
         this.router.navigate(['/join']);
 
       },

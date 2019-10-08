@@ -4,12 +4,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { HeaderComponent } from './header/header.component';
+import { ProfilComponent } from './profil/profil.component';
 
 
 const routes: Routes = [
   { path: '', component: JoinComponent },
 
   { path: 'messages/:id', component: MessagesComponent },
+  { path: 'profile', component: ProfilComponent },
 
   { path: 'join', component: JoinComponent },
   { path: 'signUp', component: SignUpComponent }
@@ -17,7 +19,7 @@ const routes: Routes = [
 ];
 
 export const COMPONENTS = [
-  HeaderComponent, JoinComponent, SignUpComponent, MessagesComponent
+  HeaderComponent, JoinComponent, SignUpComponent, MessagesComponent, ProfilComponent
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

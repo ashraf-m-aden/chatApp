@@ -2,11 +2,19 @@
 }
 .messages-container {
   min-width: 100%;
-  max-height: 100vh;
+  min-height: 100vh;
 }
 .messages{
 background-attachment: fixed;
 min-height: 100%
+}
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.search:hover{
+background-color: gray;
+color: aqua
 }
 .recherche{
   justify-content: center

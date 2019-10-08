@@ -2,3 +2,19 @@
   border: solid pink;
   border-radius: 10px
 }
+
+.example-container {
+  width: 500px;
+  height: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  height: 100%;
+
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+

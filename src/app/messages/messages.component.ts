@@ -4,6 +4,7 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxAutoScroll } from "ngx-auto-scroll";
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -12,7 +13,8 @@ import { NgxAutoScroll } from "ngx-auto-scroll";
 export class MessagesComponent implements OnInit {
   @ViewChild(NgxAutoScroll, { static: false }) ngxAutoScroll: NgxAutoScroll;
   error; //message d'erreur
-  isRoom = false;
+  myUserData;
+  isRoom = false; // dit si on est dans un chat ou pas
   message: String;
   messageArray: Array<{ username: String, time: String, message: String }> = [];
   usersInRoom = [];
@@ -22,16 +24,23 @@ export class MessagesComponent implements OnInit {
   userName;
   room;
   container = document.getElementById("messages");
+  searchResults = [];
   constructor(
     private webSocketService: ConnService,
     private formBuilder: FormBuilder,
     private aR: ActivatedRoute,
     private friends: FriendsService,
-    private router: Router
+    private router: Router,
+    private auth: AuthService
   ) {
     if (!localStorage.getItem('id') && !localStorage.getItem('token')) {
       router.navigate(['/join']);
     }
+    setTimeout(() => {
+      this.auth.getUser().subscribe((user) => {
+        this.myUserData = user;
+      });
+    }, 3000);
     this.webSocketService.newMessageReceived().subscribe((data) => {
       this.messageArray.push({
         username: data.username,
@@ -85,19 +94,31 @@ export class MessagesComponent implements OnInit {
     }
   }
   searchFriend() {
-    console.log(this.friend.get('friend').value);
-
+    this.searchResults = [];
     this.friends.searchFriend(this.friend.get('friend').value).subscribe(
-      (users) => {
-        console.log(users);
-
-      },
-      (error) => {
-        this.error = error.error;
-        console.log(error);
-
-      }
-    );
+      (users: any) => {
+        if (users.error) {
+          this.error = users.error;
+          this.searchResults = [];
+        } else {
+          console.log(users);
+          this.error = false;
+          users.forEach((user) => {
+            if (user._id !== this.myUserData._id) {
+              this.searchResults.push(
+                {
+                  id: user._id,
+                  name: user.name,
+                  Lname: user.Lname,
+                  avatar: user.avatar
+                });
+            }
+          });
+        }
+      });
   }
 
+  goMessage(id) {
+    this.router.navigate(['/profile', { id }]);
+  }
 }

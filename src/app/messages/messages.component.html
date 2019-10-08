@@ -6,7 +6,7 @@
 
     <div class="col" id="messages" ngx-auto-scroll lock-y-offset="10" observe-attributes>
       <div *ngFor="let message of messageArray" id="child">
-        <mat-card>
+        <mat-card >
           <mat-card-subtitle>
             {{message.username}}--{{message.time}}
           </mat-card-subtitle>
@@ -40,8 +40,20 @@
     </div>
   </div>
   <div class="row recherche text-center">
-    <div class="col-3 text-center">
-      Test
+    <div class="col-3 text-center" *ngIf="!error">
+      <div *ngFor="let user of searchResults">
+        <mat-card class=" search" (tap)="goMessage(user.id)">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{user.name}} {{user.Lname}}
+            </mat-card-title>
+          </mat-card-header>
+
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-3 text-center" *ngIf="error">
+      {{error}}
     </div>
   </div>
 </div>
