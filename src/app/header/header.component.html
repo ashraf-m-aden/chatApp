@@ -7,7 +7,7 @@
   </div>
   <div class="col-6" style="display: flex; justify-content: space-between; border: solid black">
     <button *ngIf="isConnected" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()"
-      color="secondary">
+      color="secondary" (tap)='getAllFriend()'>
       <!-- Mes contacts<mat-icon aria-label="Side nav toggle icon">people</mat-icon> -->
       Mes contacts
     </button>
@@ -27,10 +27,11 @@
       (click)="logOut()" color="secondary">
       Se deconnecter
     </button>
-    <mat-menu #menu="matMenu" >
+    <mat-menu #menu="matMenu">
       <div *ngFor="let user of friendRequest">
-        <div>{{user?.name}} {{user?.Lname}} <button class="btn-success" (tap)="accept(user._id)" >Accepter</button><button
-          class="btn-danger" (tap)="reject(user._id)">Rejeter</button> </div>
+        <div>{{user?.name}} {{user?.Lname}} <button class="btn-success"
+            (tap)="accept(user._id)">Accepter</button><button class="btn-danger"
+            (tap)="reject(user._id)">Rejeter</button> </div>
       </div>
     </mat-menu>
   </div>
@@ -38,15 +39,16 @@
 
 <mat-sidenav-container class="sidenavContainer">
   <mat-sidenav #sidenav mode="over" open="true" class="example-sidenav" fixedInViewport="true" fixedTopGap="64">
-    <mat-toolbar color="success">
-      <button mat-icon-button [routerLink]="['/dashboard']">
-        <mat-icon>group_work</mat-icon>
-      </button>
-    </mat-toolbar>
+
     <mat-nav-list>
-      <a mat-list-item>
-        <mat-icon>yes </mat-icon>yes yeselfgnaelkgnaekl
-      </a>
+      <mat-list-item *ngFor="let friend of myFriends">
+        <div class="col"  (tap)="joinRoom(friend?._id, friend?.name)">
+            <img src="../../assets/favicon.png ">
+            {{friend?.name}} {{friend?.Lname}}
+        </div>
+        <mat-divider></mat-divider>
+
+      </mat-list-item>
 
     </mat-nav-list>
   </mat-sidenav>

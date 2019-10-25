@@ -32,17 +32,6 @@ export class JoinComponent implements OnInit {
       mdp: ''
     });
   }
-  async joinRoom() {
-    this.webSocketService.joinRoom(this.join.get('name').value, this.join.get('room').value)
-      .subscribe((resp: any) => {
-        if (resp.error) {
-          alert(resp.error);
-        } else {
-          this.router.navigate(['/home', { name: this.join.get('name').value, room: this.join.get('room').value }]);
-
-        }
-      });
-  }
 
   logIn() {
     this.auth.logIn(this.join.get('email').value, this.join.get('mdp').value);

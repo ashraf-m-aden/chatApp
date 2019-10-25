@@ -11,6 +11,7 @@
         <mat-card-actions class="text-center">
           <button *ngIf='!isFriend && !pending' class="btn btn-primary" (tap)='sendFriendRequest(user._id)' >Ajouter</button>
           <button *ngIf='isFriend' class="btn btn-success">Message</button> <br>
+          <button *ngIf='isFriend' class="btn btn-success" (tap)="deleteFriend(user._id)">Supprimer</button> <br>
           <div *ngIf='pending'>Demande d'amitié envoyé</div>
 
         </mat-card-actions>

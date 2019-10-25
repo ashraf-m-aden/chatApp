@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
   room;
   myUser;
   friendRequest = [];
+  myFriends = [];
   isConnected = false;
   container = document.getElementById("messages");
   constructor(
@@ -106,30 +107,17 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.initform();
   }
-  // autoScroll() {
-  //   // new message element
-  //   const $newMessage = <HTMLElement>document.getElementById("child").lastElementChild;
 
-  //   // height of the new message
-  //   const $newMessageStyle = getComputedStyle($newMessage);
-  //   const $newMessageMargin = parseInt($newMessageStyle.marginBottom);
-  //   const $newMessageHeight = $newMessage.offsetHeight + $newMessageMargin;
-
-  //   // visible height
-  //   const visibleHeight = this.container.offsetHeight;
-
-  //   // height of messages container
-  //   const containerHeight = this.container.scrollHeight;
-
-  //   // how far have i scrolled
-  //   const scrollOffset = this.container.scrollTop + visibleHeight;
-
-  //   if (containerHeight - $newMessageHeight <= scrollOffset) {
-  //     this.container.scrollTop = this.container.scrollHeight;
-  //   }
-  // }
-
-
+  getAllFriend() {
+    this.myFriends = [];
+    this.friend.getFriends().subscribe((users: any) => {
+      users.forEach((user) => {
+        this.friend.getFriendProfile(user._id).subscribe((friend) => {
+          this.myFriends.push(friend);
+        });
+      });
+    });
+  }
   sendLocation() {
     if ('geolocation' in navigator) {
       /* geolocation is available */
@@ -182,5 +170,17 @@ export class HeaderComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  async joinRoom(id, name) {
+    this.webSocketService.joinRoom(this.myUser._id, id)
+      .subscribe((resp: any) => {
+        if (resp.error) {
+          alert(resp.error);
+        } else {
+          this.router.navigate(['/message/' + name]);
+
+        }
+      });
   }
 }

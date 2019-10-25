@@ -95,27 +95,30 @@ export class MessagesComponent implements OnInit {
   }
   searchFriend() {
     this.searchResults = [];
-    this.friends.searchFriend(this.friend.get('friend').value).subscribe(
-      (users: any) => {
-        if (users.error) {
-          this.error = users.error;
-          this.searchResults = [];
-        } else {
-          console.log(users);
-          this.error = false;
-          users.forEach((user) => {
-            if (user._id !== this.myUserData._id) {
-              this.searchResults.push(
-                {
-                  id: user._id,
-                  name: user.name,
-                  Lname: user.Lname,
-                  avatar: user.avatar
-                });
-            }
-          });
-        }
-      });
+    this.error = false;
+    if (this.friend.get('friend').value && this.friend.get('friend').value.length >= 3) {
+      this.friends.searchFriend(this.friend.get('friend').value).subscribe(
+        (users: any) => {
+          if (users.error) {
+            this.error = users.error;
+            this.searchResults = [];
+          } else {
+            console.log(users);
+            this.error = false;
+            users.forEach((user) => {
+              if (user._id !== this.myUserData._id) {
+                this.searchResults.push(
+                  {
+                    id: user._id,
+                    name: user.name,
+                    Lname: user.Lname,
+                    avatar: user.avatar
+                  });
+              }
+            });
+          }
+        });
+    }
   }
 
   goMessage(id) {

@@ -31,9 +31,10 @@ export class ProfilComponent implements OnInit {
           this.pending = true;
         } else {
           this.isFriend = true;
-        }      } else {
-          this.isFriend = false;
         }
+      } else {
+        this.isFriend = false;
+      }
     },
       (error) => {
         console.log(error);
@@ -57,5 +58,10 @@ export class ProfilComponent implements OnInit {
       }
     );
   }
-
+  deleteFriend(id) {
+    this.friend.deleteFriend(id).subscribe(
+      () => {
+        this.isFriend = false;
+      });
+  }
 }

@@ -43,4 +43,8 @@ export class FriendsService {
     this.Headers();
     return this.http.patch(this.dev + "users/answerRequest", { answer, id }, this._options);
   }
+  deleteFriend(id) {
+    this.Headers();
+    return this.http.patch(this.dev + "users/deleteFriend", {id}, this._options);
+  }
 }
